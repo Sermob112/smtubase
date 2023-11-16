@@ -201,13 +201,13 @@ $(function() {
     });
 
     $("#confirmDeleteButton").click(function() {
-        // Получите Id из скрытого поля
+
         var purchaseId = $("#purchaseIdField").val();
         console.log(purchaseId);
-        // Получите CSRF токен из метатега
+
         var csrfToken = getCookie('csrftoken');
 
-        // Отправка запроса на удаление на сервер
+
         $.ajax({
             type: "POST",
             url: "/delete_purchase/" + purchaseId + "/",  // Замените на правильный URL
