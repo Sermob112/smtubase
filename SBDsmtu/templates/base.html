@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'SBDsmtu/css/base.css' %}">
+    
+    <script src="{% static 'SBDsmtu/js/base.js' %}"></script>
+    <title>{% block title %}Мой сайт{% endblock %}</title>
+    <!-- Добавьте здесь ссылки на ваши статические файлы, например, CSS и JavaScript -->
+</head>
+<body>
+    <div class="top-left-icon">
+        <img src="left-icon.png" alt="Левая иконка">
+    </div>
+    <div class="top-center-title">
+        <h1>Краткая База данных</h1>
+    </div>
+    <div class="top-right-icon">
+        <img src="right-icon.png" alt="Правая иконка">
+    </div>
+    
+    <div class="project-title-box">
+        ЭЛЕКТРОННАЯ БАЗА ДАННЫХ ОБОСНОВАНИЙ НАЧАЛЬНЫХ (МАКСИМАЛЬНЫХ) ЦЕН КОНТРАКТОВ И ЦЕН КОНТРАКТОВ НА СТРОИТЕЛЬСТВО СУДОВ, ЗАКЛЮЧАЕМЫХ С ЕДИНСТВЕННЫМ ПОСТАВЩИКОМ, А ТАКЖЕ ЦЕН ЗАКЛЮЧЕННЫХ ГОСУДАРСТВЕННЫХ КОНТРАКТОВ НА СТРОИТЕЛЬСТВО СУДОВ И СИСТЕМА УПРАВЛЕНИЯ БД
+        <button class="login-button" onclick="redirectToLogin()">Войти</button>
+        <div class="button-container">
+   
+        <button class="button" onclick="redirectToFilter()">Основная информация</button>
+
+    </div>
+    </div>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        Санкт-Петербург, 2024
+    </footer>
+</body>
+</html>

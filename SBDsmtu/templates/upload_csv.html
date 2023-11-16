@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Загрузка CSV-файла</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'SBDsmtu/css/upload_csv.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="{% static 'SBDsmtu/js/upload_csv.js' %}"></script>
+</head>
+<body>
+
+    <body>
+        <div class="panel">
+            {% if user_is_admin %}
+            <button id="showUserProfiles">Администрирование пользователей</button>
+            {% endif %}
+        <div id="user-block">
+            <p id="user-name">Добро пожаловать, {{ current_user_name }}!</p>
+            <img id="user-avatar" src="путь_к_вашей_аватарке.jpg" alt="Аватар пользователя">
+            <a href="{% url 'user_logout' %}">Выйти</a>
+          
+        </div>
+    </div>
+    <h1>Загрузка CSV-файла</h1>
+    <form method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button id="submit-button" type="submit" >Загрузить</button>
+    </form>
+
+    {% if errors %}
+        <h2>Ошибки:</h2>
+        <ul>
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <button onclick="location.href='{% url 'filter_purchase' %}'" type="button">Перейти к фильтру</button>
+    {% if difference %}
+    <h2>Различия в записях:</h2>
+    <form id="deleteRecordsForm">
+        {% csrf_token %}
+        <table>
+            <thead>
+                <tr>
+                   
+                    <th>Реестровый номер</th>
+                    <th>Дата аукциона</th>
+                    <th>Дата начала заявки</th>
+                    <th>Дата окончания заявки</th>
+                    <th>Дата обновления</th>
+                    <th>Дата размещения</th>
+                    <th>Выбрать</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in difference %}
+                    <tr>
+                       
+                        <td>{{ record.1 }}</td>
+                        <td>{{ record.2|date:"d.m.y" }}</td>
+                        <td>{{ record.3|date:"d.m.y" }}</td>
+                        <td>{{ record.4|date:"d.m.y" }}</td>
+                        <td>{{ record.5|date:"d.m.y" }}</td>
+                        <td>{{ record.6|date:"d.m.y" }}</td>
+                        <td><input type="checkbox" name="record_ids" value="{{ record.0 }}"></td>
+                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="button" id="deleteRecordsButton">Удалить выбранные записи</button>
+    </form>
+        
+    
+{% endif %}
+
+
+<div id="successModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Успешно удаление</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="errorModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ошибка</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Результат операции</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalMessage"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'SBDsmtu/css/login.css' %}">
+    
+    <script src="{% static 'SBDsmtu/js/base.js' %}"></script>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <!-- Ваши стили и другие настройки -->
+</head>
+<body>
+    <div class="login-container">
+        <h1>Вход</h1>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <!-- Поля для ввода логина и пароля -->
+            <input type="text" placeholder="Логин" name="username">
+            <input type="password" placeholder="Пароль" name="password">
+            <button type="submit">Войти</button>
+        </form>
+<button class="registation-button" onclick="redirectToRegistrarion()">Зарегистрироваться</button>
+{% if error_message %}
+<p>{{ error_message }}</p>
+{% endif %}
+
+</div>
+
+</body>
+</html>

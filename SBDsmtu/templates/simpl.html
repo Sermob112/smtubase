@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Purchases</title>
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'SBDsmtu/css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'SBDsmtu/css/formStyle.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+    <script src="{% static 'SBDsmtu/js/purchase.js' %}"></script>
+    <script src="{% static 'SBDsmtu/js/sort.js' %}"></script>
+</head>
+<body>
+
+
+<!-- Добавление на этапе определения НМЦК -->
+<div class="modal" id="myModal">
+    <div class="modal-content">
+        <!-- Здесь добавьте поля для ввода значений -->
+        <input type="text" id="updateDateField" placeholder="Дата обновления">
+        <input type="number" id="queryCountField" placeholder="Количество запросов">
+        <!-- Другие поля... -->
+        <button id="saveDataButton">Сохранить</button>
+    </div>
+</div>
+
+<button id="openModalButton">Добавить данные</button>
+
+
+ 
+</body>
+</html>

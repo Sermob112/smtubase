@@ -1,0 +1,77 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализ данных</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'SBDsmtu/css/analiz.css' %}">
+    <script src="{% static 'SBDsmtu/js/upload_csv.js' %}"></script>
+
+</head>
+<body>
+    <div class="wrapper">
+        <nav class="sidebar">
+            <ul>
+                <li><a href="#table1">Анализ объявлений закупок</a></li>
+                <li><a href="#table2">Уровень цены контракта</a></li>
+                <!-- Добавьте ссылки на другие таблицы, если необходимо -->
+            </ul>
+        </nav>
+        <div class="content">
+          <div id="table1" class="table">
+              <table>
+                  <tr>
+                      <th>Методы закупок</th>
+                      {% for column in pivot_table.columns %}
+                          <th>{{ column }}</th>
+                      {% endfor %}
+                  </tr>
+                  {% for method, row in pivot_table.iterrows %}
+                      <tr>
+                          <td>{{ method }}</td>
+                          {% for value in row %}
+                              <td>{{ value }}</td>
+                          {% endfor %}
+                      </tr>
+                  {% endfor %}
+                  <tr>
+                      <td>Суммы</td>
+                      {% for sum_value in column_sums %}
+                          <td>{{ sum_value }}</td>
+                      {% endfor %}
+                  </tr>
+              </table>
+          </div>
+            <div id="table2" class="table">
+              <table>
+                <tr>
+                    <th>Уровень цены контракта</th>
+                    {% for column in pivot_table2.columns %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+                {% for method, row in pivot_table2.iterrows %}
+                    <tr>
+                        <td>{{ method }}</td>
+                        {% for value in row %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td>Итог</td>
+                    {% for sum_value in column_sums2 %}
+                        <td>{{ sum_value }}</td>
+                    {% endfor %}
+                </tr>
+            </table>
+            </div>
+            <!-- Добавьте другие таблицы в соответствии с вашими потребностями -->
+        </div>
+    </div>
+    <script src="{% static 'SBDsmtu/js/analiz.js' %}"></script>
+</body>
+</html>

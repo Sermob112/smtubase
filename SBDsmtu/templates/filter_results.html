@@ -1,0 +1,544 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"  content="width=device-width, initial-scale=1.0">
+    <title>List of Purchases</title>
+    {% load static %}
+<!-- Подключение внешних стилей -->
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="{% static 'SBDsmtu/css/styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'SBDsmtu/css/formStyle.css' %}">
+
+<!-- Подключение внешних скриптов -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{% static 'SBDsmtu/js/purchase.js' %}"></script>
+<script src="{% static 'SBDsmtu/js/sort.js' %}"></script>
+
+</head>
+<body>
+    <div class="panel">
+        {% if user_is_admin %}
+        <button id="showUserProfiles">Администрирование пользователей</button>
+        {% endif %}
+    <div id="user-block">
+        <p id="user-name">Добро пожаловать, {{ current_user_name }}!</p>
+        <img id="user-avatar" src="путь_к_вашей_аватарке.jpg" alt="Аватар пользователя">
+        <a href="{% url 'user_logout' %}">Выйти</a>
+      
+    </div>
+</div>
+    <!-- <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="purchaseModalLabel">Добавить покупку</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary" id="addPurchaseButton">Добавить</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="modal fade" id="deletePurchaseModal" tabindex="-1" role="dialog" aria-labelledby="deletePurchaseModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deletePurchaseModalLabel">Удаление записи</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Вы действительно хотите удалить эту запись?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button id="confirmDeleteButton" class="btn btn-danger">Удалить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 
+    <div id="purchaseModal" class="modal" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Добавить покупку</h5>
+                <button id="closePurchaseModal" class="close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button id="addPurchaseButton" class="btn btn-primary">Добавить</button>
+            </div>
+        </div>
+    </div>
+    <form method="get" action="{% url 'filter_purchase' %}">
+        <label for="search_input">Поиск:</label>
+<input type="text" name="search_input" id="search_input" value="{{ search_input }}" list="suggestions">
+        <datalist id="suggestions">
+            {% for org in unique_procurement_orgs %}
+                <option value="{{ org }}" data-category="Организация"></option>
+            {% endfor %}
+            {% for customer in unique_customer_names %}
+                <option value="{{ customer }}" data-category="Заказчик"></option>
+            {% endfor %}
+            {% for code in unique_purchase_codes %}
+            <option value="{{ code }}" data-category="Код закупки"></option>
+        {% endfor %}
+        {% for code in unique_Purchase_Name %}
+        <option value="{{ code }}" data-category="Объект закупки"></option>
+        {% endfor %}
+        </datalist>
+        <select name="filter_criteria">
+            <option value="">-- Выберите фильтр --</option>
+            <option value="price_asc" {% if filter_criteria == 'price_asc' %}selected{% endif %}>Сортировать по цене (по возрастанию)</option>
+            <option value="price_desc" {% if filter_criteria == 'price_desc' %}selected{% endif %}>Сортировать по цене (по убыванию)</option>
+            <option value="date_asc" {% if filter_criteria == 'date_asc' %}selected{% endif %}>Сортировать по дате (по возрастанию)</option>
+            <option value="date_desc" {% if filter_criteria == 'date_desc' %}selected{% endif %}>Сортировать по дате (по убыванию)</option>
+        </select>
+        <label for="purchase_order">Номер закупки:</label>
+        <select name="purchase_order" id="purchase_order">
+            <option value="">-- Выберите номер закупки --</option>
+            {% for po in unique_purchase_orders %}
+                <option value="{{ po }}" {% if po == purchase_order %}selected{% endif %}>{{ po }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- <label for="customer_name">Имя заказчика:</label>
+<select name="customer_name" id="customer_name">
+    <option value="">-- Выберите имя заказчика --</option>
+    {% for name in unique_customer_names %}
+        <option value="{{ name }}" {% if name == customer_name %}selected{% endif %}>{{ name }}</option>
+    {% endfor %}
+</select> -->
+<!-- <label for="procurement_organization">Организация закупки:</label>
+<input type="text" name="procurement_organization" id="procurement_organization" value="{{ procurement_organization }}" list="orgSuggestions">
+<datalist id="orgSuggestions">
+    {% for org in unique_procurement_orgs %}
+        <option value="{{ org }}">
+    {% endfor %}
+</datalist> -->
+
+
+<!-- <label for="procurement_organization">Организация закупки:</label>
+<select name="procurement_organization" id="procurement_organization">
+    <option value="">-- Выберите организацию закупки --</option>
+    {% for org in unique_procurement_orgs %}
+        <option value="{{ org }}" {% if org == procurement_organization %}selected{% endif %}>{{ org }}</option>
+    {% endfor %}
+</select> -->
+
+
+         <!-- Добавляем поля для выбора периода времени "с" и "по" -->
+         <label for="start_date">Дата "с":</label>
+         <input type="date" name="start_date" id="start_date" value="{{ start_date }}">
+         <label for="end_date">Дата "по":</label>
+         <input type="date" name="end_date" id="end_date" value="{{ end_date }}">
+    
+        <label for="min_price">Минимальная цена:</label>
+        <input type="number" name="min_price" id="min_price" value="{{ min_price }}">
+        <label for="max_price">Максимальная цена:</label>
+        <input type="number" name="max_price" id="max_price" value="{{ max_price }}">
+
+        <!-- {% for key, value in filters.items %}
+        <input type="hidden" name="{{ key }}" value="{{ value }}">
+             {% endfor %} -->
+
+
+
+        <button type="submit" name="apply_filter" >Применить фильтр</button>
+        
+        {% if search_input or filter_criteria or min_price or max_price or start_date or end_date %}
+            <a href="{% url 'filter_purchase' %}">Сбросить фильтры</a>
+        {% endif %}
+          
+        <a  href="?export_excel=1&search_input={{ search_input }}&filter_criteria={{ filter_criteria }}&purchase_order={{ purchase_order }}&start_date={{ start_date }}&end_date={{ end_date }}&min_price={{ min_price }}&max_price={{ max_price }}" download="exported_data.xlsx">
+            Скачать в Excel
+          </a>
+
+          <!-- <button class="green-button " id="downloadButton">Скачать в Excel</button> -->
+    </form>
+    
+
+  
+    <div class="panel">
+        {% if user_is_editor or user_is_admin  %}
+        <button id="showButtonForm">Загрузить данные из csv файла</button>
+        {% endif %}
+        <button id="showAnalizForm">Статистический анализ</button>
+    </div>
+
+    <!-- <button id="showPurchaseModal" class="btn btn-primary">Добавить покупку</button> -->
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#purchaseModal">Добавить покупку</button> -->
+
+
+
+<!-- 
+    <div id="FileFormShow" style="display: none;" >
+        <form method="post" enctype="multipart/form-data" id="postForm" action="{% url 'upload_csv' %}>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Загрузить</button>
+            <div id="messageContainer" style="display: none;">
+                <p id="messageText"></p>
+            </div>
+        </form>
+
+        
+        </div> -->
+
+
+
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if purchases.has_previous %}
+                    <a href="?page=1{% for key, value in filter_params.items %}{% if value != '' %}&{{ key }}={{ value|urlencode }}{% endif %}{% endfor %}" id="firstLink">&laquo; первая</a>
+                    <a href="?page={{ purchases.previous_page_number }}{% for key, value in filter_params.items %}{% if value != '' %}&{{ key }}={{ value|urlencode }}{% endif %}{% endfor %}" id="previusLink">предыдущая</a>
+                {% endif %}
+        
+                <span class="current-page">
+                    Страница {{ purchases.number }} из {{ purchases.paginator.num_pages }}.
+                </span>
+        
+                {% if purchases.has_next %}
+                    <a href="?page={{ purchases.next_page_number }}{% for key, value in filter_params.items %}{% if value != '' %}&{{ key }}={{ value|urlencode }}{% endif %}{% endfor %}" id="nextLink">следующая</a>
+                    <a href="?page={{ purchases.paginator.num_pages }}{% for key, value in filter_params.items %}{% if value != '' %}&{{ key }}={{ value|urlencode }}{% endif %}{% endfor %}" id="lastLink">последняя &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+
+                <!-- Добавление на этапе определения НМЦК
+                <div class="modal fade" id="addPurchaseModal" tabindex="-1" role="dialog" aria-labelledby="AddPurchaseModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addPurchasModalLabel">Добавление данных</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                
+                                <input type="number" id="queryCountField" placeholder="Количество запросов">
+                                <input type="number" id="responseCountField" placeholder="Количество ответов">
+                                <div id="tkpFieldsContainer">                                  
+                                </div>
+                                <button id="addTkpFieldButton">Добавить TKP</button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                                <button id="saveDataButton" class="btn btn-success">Сохранить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+
+        
+      
+        {% for purchase in purchases %}
+        <div class="purchase-card ">
+            <div class="TopPanel">
+
+
+
+                    <div class="defenitionNMCK-data"  id="defenitionNMCKDataBlock" style="display: none;">
+
+                      
+                        <div class="Block">
+                            <div class="col-text">
+                                <span class="small-text">Количество запросов</span>
+                            </div>
+                            <div class="col-text">
+                                <span class="large-text" id="queryCountDisplay">{{ purchase.QueryCount }}</span>
+                                <input type="number" id="queryCountField2" style="display: none;" placeholder="{{ purchase.QueryCount }}">
+                              
+                            </div>
+                        </div>
+                        <div class="Block">
+                            <div class="col-text">
+                                <span class="small-text">Количество ответов</span>
+                            </div>
+                            <div class="col-text">
+                                <span class="large-text" id="ResponseCountDisplay">{{ purchase.ResponseCount }}</span>
+                                <input type="number" id="ResponseCountField2" style="display: none;" placeholder="{{ purchase.ResponseCount }}">
+                            </div>
+                        </div>
+                        <div class="Block">
+                            <div class="col-text">
+                                <span class="small-text">НМЦК рыночная </span> 
+                            </div>
+                            <div class="col-text">
+                                <span class="mid-text" id="ResponseNMCKMarket">{{ purchase.NMCKMarket }}</span> 
+                                <input type="number" id="NMCKMarket" style="display: none;" placeholder="{{ purchase.NMCKMarket }}">
+                            </div>
+                        </div>
+                        <div class="Block">
+                            <div class="col-text">
+                                <span class="small-text">Лимит финансирования </span> 
+                            </div>
+                            <div class="col-text">
+                                <span class="mid-text" id="ResponseFinancingLimit" >{{ purchase.FinancingLimit }}</span> 
+                                <input type="number" id="FinancingLimit" style="display: none;" placeholder="{{ purchase.FinancingLimit }}">
+                            </div>
+                        </div>
+                  
+                <div class="Block">
+                    {% if purchase.additional_info %}
+                    <h2>ТКП:</h2>
+                    <ul class="additional-info" >
+                        {% for key, value in purchase.additional_info.items %}
+                            <li>
+                                <span class="additional-label" id ="additionallabel" style="display: block;">{{ key }}:</span>
+                                <span class="additional-value" id ="additionalvalue" style="display: block;">{{ value }}</span>
+                                <input type="number"  class="TKPinput"  style="display: none;" placeholder="{{ key }} : {{value}}">
+                            </li>
+                        {% endfor %}
+                        {% else %}
+                        <p class="no-info">Нет ТКП</p>
+                    {% endif %}
+                    </ul>
+                </div>
+                <div id = "TKDadd" style="display: none;">
+                    <div id="tkpFieldsContainer"></div>
+                    <button id="addTkpFieldButton">Добавить TKP</button>
+            
+                </div>
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Среднее значение цены </span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text">{{ purchase.AveragePrice }}</span> 
+                    </div>
+                </div>
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Минимальная цена </span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text">{{ purchase.MinPrice }}</span> 
+                    </div>
+                </div>
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Максимальная цена </span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text">{{ purchase.MaxPrice }}</span> 
+                    </div>
+                </div>
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Среднее квадратичное отклонение </span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text">{{ purchase.StandardDeviation }}</span> 
+                    </div>
+                </div>
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Коэффициент вариации </span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text">{{ purchase.CoefficientOfVariation }}</span> 
+                    </div>
+                </div>
+         
+                </div>
+
+
+                
+            <div class="purchase-data"  id="purchaseDataBlock">
+                <div class="head-text">
+                <div class="headers">
+                <div class="num-purchase">
+                    <span  class="small-text">{{ purchase.PurchaseOrder }}</span> 
+                </div>
+                <div class="num-purchase">
+                    <span  class="small-text">{{ purchase.ProcurementMethod }}</span> 
+                </div>
+            </div>
+                <div class="indification-code">
+                    <div class="col-text">
+                        <span class="small-text">Идентификационный код закупки</span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text">{{ purchase.PurchaseIdentificationCode }}</span> 
+                    </div>
+                </div>
+            </div>
+              
+                <div class="Block">
+                <div class="col-text">
+                    <span class="small-text">Номер закупки</span> 
+                </div>
+                <div class="col-text">
+                    <span class="large-text">{{ purchase.RegistryNumber }}</span> 
+                </div>
+
+                
+            </div>
+            <div class="Block">
+                <div class="col-text">
+                    <span class="small-text">Объект закупки</span> 
+                </div>
+                <div class="col-text">
+                    <span class="mid-text">{{ purchase.PurchaseName }}</span> 
+                </div>
+            </div>
+            <div class="Block">
+                <div class="col-text">
+                    <span class="small-text">Наименование Заказчика </span> 
+                </div>
+                <div class="col-text">
+                    <span class="mid-text">{{ purchase.CustomerName }}</span> 
+                </div>
+            </div>
+            <div class="Block">
+                <div class="col-text">
+                    <span class="small-text">Организация, осуществляющая размещение  </span> 
+                </div>
+                <div class="col-text">
+                    <span class="mid-text">{{ purchase.ProcurementOrganization }}</span> 
+                </div>
+            </div>
+
+            </div>
+            <div class="additional-data">
+
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Начальная цена</span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="large-text">{{ purchase.InitialMaxContractPrice }}  {{ purchase.Currency }} </span> 
+                    </div>
+                </div>
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Этап закупки</span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text">{{ purchase.ProcurementStage }}</span> 
+                    </div>
+                </div>
+
+                <div class="head-text">
+                    <div class="headers">
+                    <div class="indification-code">
+                        <div class="col-text">
+                            <span class="small-text">Дата размещения</span> 
+                        </div>
+                        <div class="col-text">
+                            <span class="mid-text">{{ purchase.PlacementDate|date:"d.m.y" }}</span> 
+                        </div>
+                    </div>
+                 
+                    <div class="indification-code">
+                        <div class="col-text">
+                            <span class="small-text">Дата обновления</span> 
+                        </div>
+                        <div class="col-text">
+                            <span class="mid-text">{{  purchase.UpdateDate|date:"d.m.y" }}</span> 
+                        </div>
+                    </div>
+                </div>
+                <div class="headers">
+                    <div class="indification-code">
+                        <div class="col-text">
+                            <span class="small-text">Дата проведения электронного аукциона</span> 
+                        </div>
+                        <div class="col-text">
+                            <span class="mid-text">{{purchase.AuctionDate|date:"d.m.y" }}</span> 
+                        </div>
+                    </div>
+               
+                
+                    <div class="indification-code">
+                        <div class="col-text">
+                            <span class="small-text">Дата начала подачи заявок</span> 
+                        </div>
+                        <div class="col-text">
+                            <span class="mid-text">{{purchase.ApplicationStartDate|date:"d.m.y" }}</span> 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="headers">
+                    <div class="indification-code">
+                        <div class="col-text">
+                            <span class="small-text">Дата окончания подачи заявок</span> 
+                        </div>
+                        <div class="col-text">
+                            <span class="mid-text">{{ purchase.ApplicationEndDate|date:"d.m.y" }}</span> 
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+
+            </div>
+            <div class="control-panel">
+                <div class="button-grid">
+                    <div class="button-container">
+                        
+                        <button class="arrow-button " id="nextButton"><img src="../static/SBDsmtu/images/arrow.svg" ></button>
+
+                        <button class="arrow-button rotate-180" id="previusButton"><img src="../static/SBDsmtu/images/arrow.svg" ></button>
+                    </div>
+                    
+                    <div class="button-container"> <button class="arrow-button rotate-minus-90 " id="prvButton"><img src="../static/SBDsmtu/images/arrow.svg" ></button>
+                       
+                        <button class="arrow-button rotate-90" id="nxtButton"><img src="../static/SBDsmtu/images/arrow.svg" ></button>
+                    </div>
+                </div>
+                <div class="button-grid">
+                    <div class="button-utility-container">
+                    <p>Purchase ID: {{ purchase.Id }}</p>
+                    {% if user_is_editor  or user_is_admin %}
+                    <button id="deletePurchaseButton" data-purchase-id="{{ purchase.Id }}" class="btn btn-danger">Удалить закупку</button>
+                    <input type="hidden" id="purchaseIdField" value="{{ purchase.Id }}">
+                    <!-- <button id="openModalButton">Добавить данные</button> -->
+                    <input type="hidden" id="purchaseIdField" name="purchaseId" value="{{ purchase.id }}">
+                    <button id="editQueryCountButton" style="display: none;">Изменить</button>
+                    {% endif %}
+                    <button>Кнопка 7</button>
+                    <button>Кнопка 8</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </body>
+
+
+</html>

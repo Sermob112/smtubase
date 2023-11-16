@@ -1,0 +1,45 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  
+  /* Стиль заголовка таблицы (thead) */
+  thead {
+    background-color: #f5f5f5;
+  }
+  
+  /* Стиль заголовков ячеек таблицы (th) */
+  th {
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  /* Стиль строк таблицы (чередование цветов для лучшей читаемости) */
+  tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Стиль ячеек данных таблицы (td) */
+  td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  /* Определение стилей для ячеек с числовыми значениями, например, цена */
+  td.numeric {
+    text-align: right;
+  }
+  
+  /* Стиль для ссылок (если они есть в таблице) */
+  td a {
+    color: #007BFF;
+    text-decoration: none;
+  }
+  
+  /* Стиль при наведении на ссылку */
+  td a:hover {
+    text-decoration: underline;
+  }

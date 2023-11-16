@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'SBDsmtu/css/view_users.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{% static 'SBDsmtu/js/view_users.js' %}"></script>
+    <title>Просмотр пользователей</title>
+</head>
+<body>
+    <body>
+        <div class="panel">
+          
+        <div id="user-block">
+            <p id="user-name">Добро пожаловать, {{ current_user_name }}!</p>
+            <img id="user-avatar" src="путь_к_вашей_аватарке.jpg" alt="Аватар пользователя">
+            <a href="{% url 'user_logout' %}">Выйти</a>
+          
+        </div>
+    </div>
+    <h1>Пользователи и их роли</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Логин</th>
+                <th>Роли</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user_with_roles in users_with_roles %}
+            {% csrf_token %}
+                <tr>
+                    <td>{{ user_with_roles.user.first_name }} {{ user_with_roles.user.last_name }}</td>
+                    <td>{{ user_with_roles.user.username }}</td>
+                    <td id="user-roles-{{ user_with_roles.user.id }}" onclick="showRoleOptions({{ user_with_roles.user.id }})">
+                        {% for role in user_with_roles.roles.all %}
+                            {{ role.name }}<br>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,86 @@
+.top-left-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.top-right-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.project-title-box {
+    border-radius: 5px;
+    border: 1px solid #ccc; /* Устанавливаем светло-коричневую рамку */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Добавляем тень */
+    background-color: #fff; /* Устанавливаем белый фон */
+    padding: 20px; /* Увеличиваем внутренний отступ в блоке */
+    text-align: center; /* Выравниваем текст по центру */
+    font-family: 'Arial', sans-serif; /* Устанавливаем шрифт */
+    color: #333; /* Устанавливаем темно-серый цвет текста */
+    font-size: 24px; /* Настройте размер шрифта по вашему усмотрению */
+    padding: 20px; /* Увеличиваем внутренний отступ в блоке */
+    text-align: center; /* Выравниваем текст по центру */
+    font-size: 24px; /* Настройте размер шрифта по вашему усмотрению */
+    width: 80%; /* Увеличиваем ширину блока до 80% от родительского контейнера */
+    height: 40%; /* Увеличиваем высоту блока до 150 пикселей */
+    position: absolute; /* Переключаем блок в абсолютную позицию */
+    top: 50%; /* Размещаем блок в вертикально посередине */
+    left: 50%; /* Размещаем блок в горизонтально посередине */
+    transform: translate(-50%, -50%); /* Центрируем блок точно по центру */
+}
+.login-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #007BFF; /* Цвет фона кнопки */
+    color: #fff; /* Цвет текста кнопки */
+    padding: 10px 20px; /* Внутренний отступ кнопки */
+    border: none; /* Убираем границу кнопки */
+    border-radius: 5px; /* Скругляем углы кнопки */
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #0056b3; /* Цвет фона кнопки при наведении */
+}
+footer {
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 99%;
+    border-radius: 5px;
+    border: 1px solid #ccc; /* Устанавливаем светло-коричневую рамку */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Добавляем тень */
+    background-color: #fff; 
+    padding: 10px 0; /* Внутренний отступ футера */
+    color: #333;
+}
+
+.top-center-title {
+    text-align: center;
+}
+
+.top-center-title h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+}
+.button-container {
+    position: fixed;
+    bottom: 20px; /* Расстояние от нижнего края */
+    left: 50%;
+    transform: translateX(-50%); /* Центрирование по горизонтали */
+    text-align: center;
+  }
+  
+  .button {
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

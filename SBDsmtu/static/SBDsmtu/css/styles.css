@@ -1,0 +1,438 @@
+/* Общие стили для body и html */
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.purchase-card {
+  width: 90vw;
+  margin: 10vh auto;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.purchase-data {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #ccc;
+  padding: 20px;
+
+}
+.defenitionNMCK-data
+{
+  flex: 2;
+  display: flex;
+  flex-direction: column 1fr 1fr;
+  border-right: 1px solid #ccc;
+  padding: 20px;
+
+}
+
+.purchase-data, .defenitionNMCK-data {
+  transition: transform 0.5s ease;
+}
+
+.slide-left {
+  transform: translateX(-100%);
+}
+
+.slide-right {
+  transform: translateX(100%);
+}
+.additional-data {
+  flex: 1;
+  padding: 20px;
+
+}
+
+.control-panel {
+  flex-grow: 1; /* Занимает оставшееся место снизу */
+  padding: 20px;
+  background-color: #d1d1d1;
+  display: flex;
+  justify-content: space-between;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.TopPanel {
+  display: flex;
+
+  justify-content: space-between; /* Равномерное распределение места между элементами */
+
+
+}
+/* Стили для кнопок в контейнере .control-panel */
+/* .button-container {
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s; /* Анимация изменения цвета фона */
+/* } */ */
+
+.control-panel button:hover {
+  background-color: #0056b3; /* Изменение цвета фона при наведении курсора */
+}
+
+/* Стили для .button-grid (контейнер с кнопками) */
+
+/* Дополнительные стили для элементов в контейнере .purchase-data и .purchase-card */
+.head-text {
+  display: flex;
+  justify-content: space-between;
+}
+
+.headers,
+.indification-code {
+  flex: 1;
+}
+
+.col-text {
+  padding-bottom: 10px;
+}
+
+.small-text {
+  font-size: 16px;
+  color: #777; /* Слегка изменен цвет текста */
+}
+
+.large-text {
+  font-size: 20px;
+  color: #0074d9; /* Цвет текста в стиле кнопок */
+}
+
+.mid-text {
+  font-size: 18px;
+  color: #333; /* Черненький цвет текста */
+}
+
+.Block {
+  padding-bottom: 20px;
+}
+
+
+/* Стили для текстовых полей ввода */
+input[type="text"] {
+  width: 200px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Стили для кнопок в форме */
+button {
+  background-color: #0074d9;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Шрифты */
+body {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+form {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 10px; 
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Стили для выпадающего списка */
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+  width: 200px;
+}
+
+/* Стили для меток и текстовых полей ввода */
+label, input {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+input[type="number"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 150px;
+}
+
+/* Стили для кнопки "Применить фильтр" */
+button[type="submit"] {
+  background-color: #0074d9;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Стили для кнопки "Выгрузить данные" */
+#showButton {
+  background-color: #04a70d;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* Анимация для кнопок */
+button:hover, #showButton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+  transition: background-color 0.3s, transform 0.3s;
+}
+.btn-danger{
+  background-color: #d9001d;
+}
+
+.num-purchase button {
+  margin-right: 40px; /* Добавляет 10 пикселей правого отступа для первой кнопки (Выгрузить данные) */
+}
+
+/* Если вы хотите увеличить расстояние между двумя кнопками, вы также можете добавить левый отступ для второй кнопки (Искать) */
+.num-purchase button[type="submit"] {
+  margin-left: 10px; /* Добавляет 20 пикселей левого отступа для второй кнопки (Искать) */
+}
+
+select {
+  font-size: 16px; /* Устанавливает размер шрифта для <select> и всех <option> */
+}
+
+option {
+  font-size: 16px; /* Устанавливает размер шрифта для всех <option> */
+}
+/* .form {
+  display: none;
+  
+} */
+
+#messageContainer {
+  display: none;
+  background-color: #ff6347; /* Красный цвет фона */
+  color: white; /* Белый цвет текста */
+  padding: 10px; /* Внутренний отступ */
+  border: 2px solid #cc0000; /* Красная рамка */
+}
+#messageContainer.success {
+  background-color: #00cc00; /* Зеленый цвет фона */
+  color: white; /* Белый цвет текста */
+}
+
+.arrow-button {
+  background-color: #0074d9; /* Серый фон кнопки */
+  color: #fff; /* Белый цвет текста */
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.arrow-button img {
+  transform: rotate(0deg); /* Сброс поворота для всех кнопок */
+}
+
+.rotate-90 img {
+  transform: rotate(90deg); /* Поворот на 90 градусов */
+}
+
+.rotate-180 img {
+  transform: rotate(180deg); /* Поворот на 180 градусов */
+}
+
+.rotate-minus-90 img {
+  transform: rotate(-90deg); /* Поворот на -90 градусов */
+}
+.current-page {
+  background-color: #0074d9;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
+  margin: 0 10px; /* Регулируйте расстояние между элементом и окружающим текстом */
+}
+#previusLink,#firstLink,#nextLink {
+  display: none;
+}
+#deletePurchaseButton{
+
+  background-color: #fc2f2f; /* Зеле
+}
+#showButtonForm {
+  background-color: #4CAF50; /* Зеленый цвет */
+  color: #fff; /* Белый цвет текста */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#showButtonForm:hover {
+  background-color: #45a049; /* Цвет при наведении курсора */
+}
+
+.button-container {
+  display: flex; /* Устанавливаем контейнер в режим горизонтального ряда */
+  color: #fff;
+}
+.button-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Создаем 2 колонки */
+  grid-gap: 10px; /* Отступ между кнопками */
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.arrow-button {
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s; /* Анимация изменения цвета фона */
+}
+.green-button {
+  background-color: green; /* Задаем зеленый цвет фона */
+  color: white; /* Задаем белый цвет текста */
+  padding: 10px 20px; /* Задаем отступы для кнопки */
+  border: none; /* Убираем границу */
+  cursor: pointer; /* Изменяем курсор при наведении */
+}
+
+.container {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.data-info {
+  margin-bottom: 20px;
+}
+
+.data-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.label {
+  font-weight: bold;
+  color: #0077b6;
+}
+
+.value {
+  color: #333;
+}
+
+.additional-info {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.additional-label {
+  font-weight: bold;
+  color: #0077b6;
+}
+
+.additional-value {
+  color: #333;
+}
+
+.no-info {
+  font-size: 16px;
+  color: #777;
+}
+
+.panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  padding: 10px; /* Вместо padding-top и padding-left, чтобы уменьшить код */
+}
+
+#showButtonForm {
+
+  color: #fff; /* Цвет текста кнопки */
+  padding: 10px 20px; /* Отступы внутри кнопки */
+  margin-right: 20px;
+  border: none; /* Убрать границу у кнопки */
+  cursor: pointer; /* Изменить курсор при наведении на кнопку */
+}
+
+#showButtonForm:hover {
+  background-color: #2980b9; /* Цвет фона кнопки при наведении */
+}
+
+.button-utility-container {
+  display: flex; /* Устанавливаем контейнер как flex-контейнер */
+  align-items: center; /* Выравниваем элементы вертикально по центру */
+  justify-content: space-between; /* Распределяем элементы внутри контейнера равномерно по горизонтали */
+}
+
+.button-utility-container button {
+  margin-left: 10px; /* Добавляем небольшой отступ между кнопками */
+}
+
+#user-block {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: 20px;
+}
+
+#user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+#user-name {
+  font-size: 16px;
+  color: #333;
+}

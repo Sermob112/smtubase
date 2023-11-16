@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  web:
+    networks:
+      - mynetwork
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DJANGO_DB_HOST=db
+      - DJANGO_DB_PORT=5432
+      - DJANGO_DB_NAME=test
+      - DJANGO_DB_USER=postgres
+      - DJANGO_DB_PASSWORD=sa
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: sa
+      POSTGRES_HOST_AUTH_METHOD: trust
+    container_name: db
+    volumes:
+      - dbdata:/var/lib/postgresql/data/
+    networks:
+      - mynetwork
+  
+volumes:
+  dbdata: null
+
+
+networks:
+  mynetwork:
+    driver: bridge

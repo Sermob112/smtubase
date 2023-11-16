@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'SBDsmtu/css/registration.css' %}">
+    
+    <script src="{% static 'SBDsmtu/js/base.js' %}"></script>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <!-- Ваши стили и другие настройки -->
+</head>
+<body>
+    <div class="registration-container">
+        <h1>Регистрация</h1>
+        <form method="post" action="{% url 'registration' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+        <button class="login-button" onclick="redirectToLogin()">Войти</button>
+    </div>
+</body>
+</html>

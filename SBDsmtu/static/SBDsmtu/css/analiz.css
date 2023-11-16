@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+.wrapper {
+    display: flex;
+}
+
+/* Стили для бокового меню */
+.sidebar {
+    background-color: #ffffff;
+    color: #fff;
+    width: 250px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin: 10px;
+}
+
+.sidebar a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+}
+
+/* Стили для основного контента */
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px; /* Скругление углов таблицы */
+}
+
+/* Стили для заголовков таблицы */
+.table th {
+    background-color: #ffffff;
+    color: #333;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Стили для ячеек таблицы */
+.table td {
+    background-color: #ffffff;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+/* Стили для строк чередующегося цвета */
+.table tr:nth-child(even) {
+    background-color: #e0e0e0;
+}
