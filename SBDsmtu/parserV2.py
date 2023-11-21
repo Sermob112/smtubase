@@ -507,7 +507,7 @@ def find_records_with_differences():
 
         # SQL-запрос для поиска записей с одинаковым "RegistryNumber", но различными значениями в полях "AuctionDate", "ApplicationStartDate", "ApplicationEndDate", "UpdateDate" и "PlacementDate"
         sql = """
-            SELECT "Id", "RegistryNumber", "AuctionDate", "ApplicationStartDate", "ApplicationEndDate", "UpdateDate", "PlacementDate"
+            SELECT "Id", "RegistryNumber", "AuctionDate", "ApplicationStartDate", "ApplicationEndDate", "UpdateDate", "PlacementDate","LotNumber"
             FROM public."SBDsmtu_purchase"
             WHERE "RegistryNumber" IN (
                 SELECT "RegistryNumber"

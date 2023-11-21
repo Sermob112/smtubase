@@ -56,6 +56,7 @@
                     <th>Дата окончания заявки</th>
                     <th>Дата обновления</th>
                     <th>Дата размещения</th>
+                    <th>Номер лота</th>
                     <th>Выбрать</th>
                 </tr>
             </thead>
@@ -69,6 +70,7 @@
                         <td>{{ record.4|date:"d.m.y" }}</td>
                         <td>{{ record.5|date:"d.m.y" }}</td>
                         <td>{{ record.6|date:"d.m.y" }}</td>
+                        <td>{{ record.7}}</td>
                         <td><input type="checkbox" name="record_ids" value="{{ record.0 }}"></td>
                         
                     </tr>
