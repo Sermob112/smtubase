@@ -714,27 +714,32 @@ def registration(request):
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        logout(request)
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('filter_purchase')  # Здесь 'dashboard' - это имя URL-маршрута, на который будет перенаправлен пользователь после успешного входа
+            return redirect('filter_purchase')  
         else:
             return render(request, 'login.html', {'error_message': 'Неверные учетные данные'})
 
     return render(request, 'login.html')
 
 def registration(request):
+    if request.user.is_authenticated:
+       
+        logout(request)
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = RussianUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
            
             return redirect('filter_purchase')  # Здесь 'dashboard' - это имя URL-маршрута, на который будет перенаправлен пользователь после успешной регистрации
     else:
-        form = RegistrationForm()
+        form = RussianUserCreationForm()
 
     return render(request, 'registration.html', {'form': form})
 

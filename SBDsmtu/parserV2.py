@@ -3,8 +3,8 @@ import csv
 import datetime
 import pandas as pd
 import os
-# hostname = "localhost"
-hostname = "db"
+hostname = "localhost"
+# hostname = "db"
 username = "postgres"
 password = "sa"
 database = "test"
