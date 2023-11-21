@@ -563,7 +563,10 @@ def save_data(request,purchase_id):
     else:
         return JsonResponse({'message': 'Недопустимый запрос'}, status=400)
     
-
+def export_to_excel_analis(dataframes, output_path):
+    with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
+        for sheet_name, df in dataframes.items():
+            df.to_excel(writer, sheet_name=sheet_name, index=False)
 
 
 @login_required
@@ -588,8 +591,36 @@ def analis(request):
     pivot_table2['Общий итог'] = row_totals2
     total_purchase_counts2 = column_sums2.sum()
     column_sums2['Суммы'] = total_purchase_counts2
+    
 
+    if 'export_excel' in request.GET:
+        excel_df = pd.DataFrame(columns=['Методы закупок'] + list(pivot_table.columns) + ['Суммы'])
+        excel_df2 = pd.DataFrame(columns=['Уровень цены контракта'] + list(pivot_table2.columns) + ['Суммы'])
+        for method, row in pivot_table.iterrows():
+            excel_df = pd.concat([excel_df, pd.DataFrame([[method] + list(row) + [row.sum()]], columns=excel_df.columns)])
 
+        excel_df = pd.concat([excel_df, pd.DataFrame([['Суммы'] + list(column_sums) + [total_purchase_counts]], columns=excel_df.columns)])
+
+        for method, row in pivot_table2.iterrows():
+            excel_df2 = pd.concat([excel_df2, pd.DataFrame([[method] + list(row) + [row.sum()]], columns=excel_df2.columns)])
+
+        excel_df2 = pd.concat([excel_df2, pd.DataFrame([['Суммы'] + list(column_sums2) + [total_purchase_counts2]], columns=excel_df2.columns)])
+
+        data_to_export = {
+            'Методы закупок': excel_df,
+            'Уровень цены контракта': excel_df2,
+        }
+        output_excel_path = 'путь_к_вашему_файлу.xlsx'
+  
+        with pd.ExcelWriter(output_excel_path, engine='openpyxl') as writer:
+            for sheet_name, df in data_to_export.items():
+                df.to_excel(writer, sheet_name=sheet_name, index=False)
+        with open(output_excel_path, 'rb') as excel_file:
+            response = HttpResponse(excel_file.read(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename=exported_data.xlsx'
+
+        os.remove(output_excel_path)
+        return response
 
     context = {
     'pivot_table': pivot_table,
