@@ -74,7 +74,7 @@ class RussianUserCreationForm(UserCreationForm):
             'username': {
                 'unique': 'Пользователь с таким именем уже существует.',
             },
-            
+        
         }
      
 
@@ -86,7 +86,8 @@ class RussianUserCreationForm(UserCreationForm):
         self.fields['password2'].label = 'Подтвердите пароль'
         self.fields['password1'].help_text = None
         self.fields['password2'].help_text = None
-
+        self.fields['password1'].error_messages = None
+        self.fields['password2'].error_messages = None
     def clean_password1(self):
         password1 = self.cleaned_data.get('password1')
 
@@ -104,6 +105,20 @@ class RussianUserCreationForm(UserCreationForm):
 
         # Проверка на совпадение паролей
         if password1 and password2 and password1 != password2:
-            raise ValidationError('Пароли не совпадают.')
+           raise ValidationError(self.Meta.error_messages['password2']['password_mismatch'])
 
         return password2
+    def validate(self, password, user=None):
+        special_characters = set("!@#$%^&*()-_+=<>?/")
+
+        if sum(1 for char in password if char in special_characters) < self.min_special_characters:
+            raise ValidationError(
+                _("Пароль должен содержать как минимум %(min_special_characters)d специальный символ."),
+                code='password_no_special_characters',
+                params={'min_special_characters': self.min_special_characters},
+            )
+
+    def get_help_text(self):
+        return _(
+            "Пароль должен содержать как минимум %(min_special_characters)d специальный символ."
+        ) % {'min_special_characters': self.min_special_characters}
