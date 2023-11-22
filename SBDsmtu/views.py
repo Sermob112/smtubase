@@ -246,6 +246,7 @@ def filter_purchase(request):
     purchase_order = request.GET.get('purchase_order', '') 
 
     purchases = Purchase.objects.all()
+    purchases = purchases.order_by('Id')
     current_user_name = request.user.get_username()
     user_is_admin = request.user.is_authenticated and request.user.userprofile.roles.filter(name='Администратор').exists()
     user_is_editor = request.user.is_authenticated and request.user.userprofile.roles.filter(name='Редактор').exists()
@@ -552,14 +553,16 @@ def save_data(request,purchase_id):
             # purchase.CoefficientOfVariation = request.POST.get('coefficientOfVariation')
             # purchase.NMCKMarket = request.POST.get('nmckMarket')
             # purchase.FinancingLimit = request.POST.get('financingLimit')
-
-          
+            current_page = request.GET.get('page', 1)
+            
             purchase.save()
-
+            
             
             return JsonResponse({'message': 'Данные успешно обновлены'})
         except Purchase.DoesNotExist:
             return JsonResponse({'message': 'Запись не найдена'}, status=400)
+        
+        
     else:
         return JsonResponse({'message': 'Недопустимый запрос'}, status=400)
     
