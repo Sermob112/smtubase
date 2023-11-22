@@ -318,7 +318,7 @@
                             <li>
                                 <span class="additional-label" id ="additionallabel" style="display: block;">{{ key }}:</span>
                                 <span class="additional-value" id ="additionalvalue" style="display: block;">{{ value }}</span>
-                                <input type="number"  class="TKPinput"  style="display: none;" placeholder="{{ key }} : {{value}}">
+                                <!-- <input type="number" id="tkpInput" class="TKPinput"  style="display: none;" placeholder="{{ key }} : {{value}}"> -->
                             </li>
                         {% endfor %}
                         {% else %}
@@ -328,7 +328,7 @@
                 </div>
                 <div id = "TKDadd" style="display: none;">
                     <div id="tkpFieldsContainer"></div>
-                    <button id="addTkpFieldButton">Добавить TKP</button>
+                    <!-- <button id="addTkpFieldButton">Добавить TKP</button> -->
             
                 </div>
                 <div class="Block">
@@ -336,7 +336,7 @@
                         <span class="small-text">Среднее значение цены </span> 
                     </div>
                     <div class="col-text">
-                        <span class="mid-text">{{ purchase.AveragePrice }}</span> 
+                        <span class="mid-text" id ="averagePrice">{{ purchase.AveragePrice }}</span> 
                     </div>
                 </div>
                 <div class="Block">
@@ -344,15 +344,15 @@
                         <span class="small-text">Минимальная цена </span> 
                     </div>
                     <div class="col-text">
-                        <span class="mid-text">{{ purchase.MinPrice }}</span> 
+                        <span class="mid-text" id ="minPrice">{{ purchase.MinPrice }}</span> 
                     </div>
                 </div>
                 <div class="Block">
                     <div class="col-text">
-                        <span class="small-text">Максимальная цена </span> 
+                        <span class="small-text" >Максимальная цена </span> 
                     </div>
                     <div class="col-text">
-                        <span class="mid-text">{{ purchase.MaxPrice }}</span> 
+                        <span class="mid-text" id ="maxPrice">{{ purchase.MaxPrice }}</span> 
                     </div>
                 </div>
                 <div class="Block">
@@ -360,7 +360,7 @@
                         <span class="small-text">Среднее квадратичное отклонение </span> 
                     </div>
                     <div class="col-text">
-                        <span class="mid-text">{{ purchase.StandardDeviation }}</span> 
+                        <span class="mid-text" id ="standardDeviation" >{{ purchase.StandardDeviation }}</span> 
                     </div>
                 </div>
                 <div class="Block">
@@ -368,7 +368,7 @@
                         <span class="small-text">Коэффициент вариации </span> 
                     </div>
                     <div class="col-text">
-                        <span class="mid-text">{{ purchase.CoefficientOfVariation }}</span> 
+                        <span class="mid-text" id ="coefficientOfVariation" >{{ purchase.CoefficientOfVariation }} </span> 
                     </div>
                 </div>
          

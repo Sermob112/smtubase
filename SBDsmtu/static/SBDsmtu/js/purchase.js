@@ -436,22 +436,97 @@ $(function() {
     });
 });
 
+// $(document).ready(function() {
+//     var tkpFieldCount = 0;
+
+//     // Обработчик клика на кнопку "Добавить TKP"
+//     $("#addTkpFieldButton").click(function() {
+//         tkpFieldCount++;
+ 
+
+//         var newTkpField = $('<input type="text" class="TKPinput">').attr({
+//             id: 'tkp' + tkpFieldCount + 'Field',
+//             style: 'display: block',
+//             placeholder: 'Значение TKP' + tkpFieldCount
+//         });
+
+//         // Добавить новое поле ввода в контейнер
+//         $("#tkpFieldsContainer").append(newTkpField);
+//     });
+// });
 $(document).ready(function() {
     var tkpFieldCount = 0;
 
-    // Обработчик клика на кнопку "Добавить TKP"
-    $("#addTkpFieldButton").click(function() {
-        tkpFieldCount++;
- 
+    // Обработчик ввода цифры в поле "#queryCountField2"
+    $("#queryCountField2").on("input", function() {
+        // Очистить контейнер перед добавлением новых полей
+        $("#tkpFieldsContainer").empty();
 
-        var newTkpField = $('<input type="text" class="TKPinput">').attr({
-            id: 'tkp' + tkpFieldCount + 'Field',
-            style: 'display: block',
-            placeholder: 'Значение TKP' + tkpFieldCount
-        });
+        // Получить количество полей TKP, которое нужно добавить
+        var count = parseInt($(this).val(), 10) || 0;
 
-        // Добавить новое поле ввода в контейнер
-        $("#tkpFieldsContainer").append(newTkpField);
+        // Добавить новые поля TKP в контейнер
+        for (var i = 1; i <= count; i++) {
+            var newTkpField = $('<input type="number" class="TKPinput">').attr({
+                id: 'tkp' + i + 'Field',
+                style: 'display: block',
+                placeholder: 'Значение TKP' + i
+            });
+
+            $("#tkpFieldsContainer").append(newTkpField);
+        }
     });
 });
+$(document).ready(function() {
+    var tkpFieldCount = 0;
 
+    // Обработчик ввода для основного поля TKP
+    $("#tkpInput").on("input", function() {
+        calculateAndDisplayStatistics();
+    });
+    function calculateStandardDeviation(values) {
+        const n = values.length;
+    
+        // Среднее значение
+        const mean = values.reduce((acc, value) => acc + value, 0) / n;
+    
+        // Сумма квадратов разностей от среднего значения
+        const sumOfSquares = values.reduce((acc, value) => acc + Math.pow(value - mean, 2), 0);
+    
+        // Стандартное отклонение для выборки (с использованием исправления Bessel's correction)
+        const standardDeviation = Math.sqrt(sumOfSquares / (n - 1));
+    
+        return standardDeviation;
+    }
+    // Функция для вычисления и отображения статистики
+    function calculateAndDisplayStatistics() {
+        var tkp_values_all = [];
+        tkp_values_all.push(parseFloat($("#tkpInput").val()) || 0);
+
+        $(".TKPinput").each(function() {
+            tkp_values_all.push(parseFloat($(this).val()) || 0);
+        });
+        var nonZeroValues = tkp_values_all.filter(value => value !== 0 && !isNaN(value));
+        // Вычислить статистику
+        var max_tkp = Math.max(...tkp_values_all);
+
+        var min_tkp = nonZeroValues.length > 0 ? Math.min(...nonZeroValues) : NaN;
+        var avg_tkp = nonZeroValues.length > 0 ? nonZeroValues.reduce((a, b) => a + b) / nonZeroValues.length : 0;
+        var standard_deviation = calculateStandardDeviation(nonZeroValues);
+        var cv = (standard_deviation / avg_tkp) * 100;
+
+        // Обновить соответствующие элементы DOM
+        $("#averagePrice").text(avg_tkp.toFixed(2));
+        $("#minPrice").text(min_tkp.toFixed(2));
+        $("#maxPrice").text(max_tkp.toFixed(2));
+        $("#standardDeviation").text(standard_deviation.toFixed(2));
+        $("#coefficientOfVariation").text(cv.toFixed(2)+ " %");
+        console.log(tkp_values_all);
+     
+    }
+
+    // Обработчик ввода для динамически созданных полей TKP
+    $(document).on("input", ".TKPinput", function() {
+        calculateAndDisplayStatistics();
+    });
+});
