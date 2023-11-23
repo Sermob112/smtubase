@@ -266,118 +266,12 @@
         {% for purchase in purchases %}
         <div class="purchase-card ">
             <div class="TopPanel">
-
-
-
-                    <div class="defenitionNMCK-data"  id="defenitionNMCKDataBlock" style="display: none;">
-
-                      
-                        <div class="Block">
-                            <div class="col-text">
-                                <span class="small-text">Количество запросов</span>
-                            </div>
-                            <div class="col-text">
-                                <span class="large-text" id="queryCountDisplay">{{ purchase.QueryCount }}</span>
-                                <input type="number" id="queryCountField2" style="display: none;" placeholder="{{ purchase.QueryCount }}">
-                              
-                            </div>
-                        </div>
-                        <div class="Block">
-                            <div class="col-text">
-                                <span class="small-text">Количество ответов</span>
-                            </div>
-                            <div class="col-text">
-                                <span class="large-text" id="ResponseCountDisplay">{{ purchase.ResponseCount }}</span>
-                                <input type="number" id="ResponseCountField2" style="display: none;" placeholder="{{ purchase.ResponseCount }}">
-                            </div>
-                        </div>
-                        <div class="Block">
-                            <div class="col-text">
-                                <span class="small-text">НМЦК рыночная </span> 
-                            </div>
-                            <div class="col-text">
-                                <span class="mid-text" id="ResponseNMCKMarket">{{ purchase.NMCKMarket }}</span> 
-                                <input type="number" id="NMCKMarket" style="display: none;" placeholder="{{ purchase.NMCKMarket }}">
-                            </div>
-                        </div>
-                        <div class="Block">
-                            <div class="col-text">
-                                <span class="small-text">Лимит финансирования </span> 
-                            </div>
-                            <div class="col-text">
-                                <span class="mid-text" id="ResponseFinancingLimit" >{{ purchase.FinancingLimit }}</span> 
-                                <input type="number" id="FinancingLimit" style="display: none;" placeholder="{{ purchase.FinancingLimit }}">
-                            </div>
-                        </div>
                   
-                <div class="Block">
-                    {% if purchase.additional_info %}
-                    <h2>ТКП:</h2>
-                    <ul class="additional-info" >
-                        {% for key, value in purchase.additional_info.items %}
-                            <li>
-                                <span class="additional-label" id ="additionallabel" style="display: block;">{{ key }}:</span>
-                                <span class="additional-value" id ="additionalvalue" style="display: block;">{{ value }}</span>
-                                <!-- <input type="number" id="tkpInput" class="TKPinput"  style="display: none;" placeholder="{{ key }} : {{value}}"> -->
-                            </li>
-                        {% endfor %}
-                        {% else %}
-                        <p class="no-info">Нет ТКП</p>
-                    {% endif %}
-                    </ul>
-                </div>
-                <div id = "TKDadd" style="display: none;">
-                    <div id="tkpFieldsContainer"></div>
-                    <!-- <button id="addTkpFieldButton">Добавить TKP</button> -->
-            
-                </div>
-                <div class="Block">
-                    <div class="col-text">
-                        <span class="small-text">Среднее значение цены </span> 
-                    </div>
-                    <div class="col-text">
-                        <span class="mid-text" id ="averagePrice">{{ purchase.AveragePrice }}</span> 
-                    </div>
-                </div>
-                <div class="Block">
-                    <div class="col-text">
-                        <span class="small-text">Минимальная цена </span> 
-                    </div>
-                    <div class="col-text">
-                        <span class="mid-text" id ="minPrice">{{ purchase.MinPrice }}</span> 
-                    </div>
-                </div>
-                <div class="Block">
-                    <div class="col-text">
-                        <span class="small-text" >Максимальная цена </span> 
-                    </div>
-                    <div class="col-text">
-                        <span class="mid-text" id ="maxPrice">{{ purchase.MaxPrice }}</span> 
-                    </div>
-                </div>
-                <div class="Block">
-                    <div class="col-text">
-                        <span class="small-text">Среднее квадратичное отклонение </span> 
-                    </div>
-                    <div class="col-text">
-                        <span class="mid-text" id ="standardDeviation" >{{ purchase.StandardDeviation }}</span> 
-                    </div>
-                </div>
-                <div class="Block">
-                    <div class="col-text">
-                        <span class="small-text">Коэффициент вариации </span> 
-                    </div>
-                    <div class="col-text">
-                        <span class="mid-text" id ="coefficientOfVariation" >{{ purchase.CoefficientOfVariation }} </span> 
-                    </div>
-                </div>
-         
-                </div>
 
 
                 
             <div class="purchase-data"  id="purchaseDataBlock">
-                <div class="head-text">
+                <!-- <div class="head-text">
                 <div class="headers">
                 <div class="num-purchase">
                     <span  class="small-text">{{ purchase.PurchaseOrder }}</span> 
@@ -394,14 +288,30 @@
                         <span class="mid-text">{{ purchase.PurchaseIdentificationCode }}</span> 
                     </div>
                 </div>
+            </div> -->
+            <div class="Block">
+                <div class="col-text">
+                    <span class="small-text">Закон</span> 
+                </div>
+                <div class="col-text">
+                    <span class="mid-text">{{ purchase.PurchaseOrder }}</span> 
+                </div>
+            </div>
+            <div class="Block">
+                <div class="col-text">
+                    <span class="small-text">Метод закупки</span> 
+                </div>
+                <div class="col-text">
+                    <span class="mid-text">{{ purchase.ProcurementMethod }}</span> 
+                </div>
             </div>
               
                 <div class="Block">
                 <div class="col-text">
-                    <span class="small-text">Номер закупки</span> 
+                    <span class="small-text">Идентификационный код закупки</span> 
                 </div>
                 <div class="col-text">
-                    <span class="large-text">{{ purchase.RegistryNumber }}</span> 
+                    <span class="mid-text">{{ purchase.PurchaseIdentificationCode }}</span> 
                 </div>
 
                 
@@ -450,8 +360,47 @@
                         <span class="mid-text">{{ purchase.ProcurementStage }}</span> 
                     </div>
                 </div>
-
-                <div class="head-text">
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Дата размещения</span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text">{{ purchase.PlacementDate|date:"d.m.y"  }}</span> 
+                    </div>
+                </div>
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Дата обновления</span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text">{{ purchase.UpdateDate|date:"d.m.y" }}</span> 
+                    </div>
+                </div>
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Дата проведения электронного аукциона</span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text">{{ purchase.AuctionDate|date:"d.m.y" }}</span> 
+                    </div>
+                </div>
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Дата начала подачи заявок</span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text">{{ purchase.ApplicationStartDate|date:"d.m.y" }}</span> 
+                    </div>
+                </div>
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Дата окончания подачи заявок</span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text">{{ purchase.ApplicationEndDate|date:"d.m.y" }}</span> 
+                    </div>
+                </div>
+                <!-- <div class="head-text">
                     <div class="headers">
                     <div class="indification-code">
                         <div class="col-text">
@@ -502,9 +451,111 @@
                         </div>
                     </div>
                 </div>
-                </div>
+                </div> -->
 
             </div>
+            <div class="defenitionNMCK-data"  id="defenitionNMCKDataBlock" >
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Количество запросов</span>
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text" id="queryCountDisplay">{{ purchase.QueryCount }}</span>
+                        <input type="number" id="queryCountField2" style="display: none;" placeholder="{{ purchase.QueryCount }}">
+                      
+                    </div>
+                </div>
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Количество ответов</span>
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text" id="ResponseCountDisplay">{{ purchase.ResponseCount }}</span>
+                        <input type="number" id="ResponseCountField2" style="display: none;" placeholder="{{ purchase.ResponseCount }}">
+                    </div>
+                </div>
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">НМЦК рыночная </span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text" id="ResponseNMCKMarket">{{ purchase.NMCKMarket }}</span> 
+                        <input type="number" id="NMCKMarket" style="display: none;" placeholder="{{ purchase.NMCKMarket }}">
+                    </div>
+                </div>
+                <div class="Block">
+                    <div class="col-text">
+                        <span class="small-text">Лимит финансирования </span> 
+                    </div>
+                    <div class="col-text">
+                        <span class="mid-text" id="ResponseFinancingLimit" >{{ purchase.FinancingLimit }}</span> 
+                        <input type="number" id="FinancingLimit" style="display: none;" placeholder="{{ purchase.FinancingLimit }}">
+                    </div>
+                </div>
+                <h2>TKP</h2>
+        <div class="Block" id="additional-info" style="display: block;">
+          
+            {% if purchase.additional_info %}
+            <ul class="additional-info" >
+                {% for key, value in purchase.additional_info.items %}
+                    <li>
+                        <span class="additional-label" id ="additionallabel" style="display: block;">{{ key }}:</span>
+                        <span class="additional-value" id ="additionalvalue" style="display: block;">{{ value }}</span>
+                        <!-- <input type="number" id="tkpInput" class="TKPinput"  style="display: none;" placeholder="{{ key }} : {{value}}"> -->
+                    </li>
+                {% endfor %}
+                {% else %}
+                <p class="no-info">Нет ТКП</p>
+            {% endif %}
+            </ul>
+        </div>
+        <div id = "TKDadd" style="display: none;">
+            <div id="tkpFieldsContainer"></div>
+            <!-- <button id="addTkpFieldButton">Добавить TKP</button> -->
+    
+        </div>
+        <div class="Block">
+            <div class="col-text">
+                <span class="small-text">Среднее значение цены </span> 
+            </div>
+            <div class="col-text">
+                <span class="mid-text" id ="averagePrice">{{ purchase.AveragePrice }}</span> 
+            </div>
+        </div>
+        <div class="Block">
+            <div class="col-text">
+                <span class="small-text">Минимальная цена </span> 
+            </div>
+            <div class="col-text">
+                <span class="mid-text" id ="minPrice">{{ purchase.MinPrice }}</span> 
+            </div>
+        </div>
+        <div class="Block">
+            <div class="col-text">
+                <span class="small-text" >Максимальная цена </span> 
+            </div>
+            <div class="col-text">
+                <span class="mid-text" id ="maxPrice">{{ purchase.MaxPrice }}</span> 
+            </div>
+        </div>
+        <div class="Block">
+            <div class="col-text">
+                <span class="small-text">Среднее квадратичное отклонение </span> 
+            </div>
+            <div class="col-text">
+                <span class="mid-text" id ="standardDeviation" >{{ purchase.StandardDeviation }}</span> 
+            </div>
+        </div>
+        <div class="Block">
+            <div class="col-text">
+                <span class="small-text">Коэффициент вариации </span> 
+            </div>
+            <div class="col-text">
+                <span class="mid-text" id ="coefficientOfVariation" >{{ purchase.CoefficientOfVariation }} </span> 
+            </div>
+        </div>
+ 
+        </div>
 
             </div>
             <div class="control-panel">
@@ -527,9 +578,9 @@
                     {% if user_is_editor  or user_is_admin %}
                     <button id="deletePurchaseButton" data-purchase-id="{{ purchase.Id }}" class="btn btn-danger">Удалить закупку</button>
                     <input type="hidden" id="purchaseIdField" value="{{ purchase.Id }}">
-                    <!-- <button id="openModalButton">Добавить данные</button> -->
+                  
                     <input type="hidden" id="purchaseIdField" name="purchaseId" value="{{ purchase.id }}">
-                    <button id="editQueryCountButton" style="display: none;">Изменить</button>
+                    <button id="editQueryCountButton">Изменить</button>
                     {% endif %}
                     <button>Кнопка 7</button>
                     <button>Кнопка 8</button>

@@ -36,6 +36,7 @@ var TKPCountFields = document.querySelectorAll('.TKPinput');
 var NMCKMarket = document.getElementById('NMCKMarket');
 var FinancingLimit = document.getElementById('FinancingLimit');
 var NMCKMarketResponse = document.getElementById('ResponseNMCKMarket');
+
 var FinancingLimitResponse = document.getElementById('ResponseFinancingLimit');
 try {
 document.getElementById("showAnalizForm").addEventListener("click", function() {
@@ -44,32 +45,32 @@ document.getElementById("showAnalizForm").addEventListener("click", function() {
 } catch (error) {
     console.error()
 };
-    try {
-   nxtButton.addEventListener("click", function() {
-    try {
-        purchaseDataBlock.style.display = "none";
-        editQueryCountButton.style.display = "block";
-        defenitionNMCKDataBlock.style.display = "block";
-    } catch (error) {
-        console.error("An error occurred:", error);
-    }
+//     try {
+//    nxtButton.addEventListener("click", function() {
+//     try {
+//         purchaseDataBlock.style.display = "none";
+//         editQueryCountButton.style.display = "block";
+//         defenitionNMCKDataBlock.style.display = "block";
+//     } catch (error) {
+//         console.error("An error occurred:", error);
+//     }
     
-});
-} catch (error) {
-    console.error()};
-    try {
+// });
+// } catch (error) {
+//     console.error()};
+//     try {
 
-prvButton.addEventListener("click", function() {
-    try {
-        editQueryCountButton.style.display = "none";
-        purchaseDataBlock.style.display = "block";
-        defenitionNMCKDataBlock.style.display = "none";
-    } catch (error) {
-        console.error("An error occurred:", error);
-    }
-});
-} catch (error) {
-    console.error()};
+// prvButton.addEventListener("click", function() {
+//     try {
+//         editQueryCountButton.style.display = "none";
+//         purchaseDataBlock.style.display = "block";
+//         defenitionNMCKDataBlock.style.display = "none";
+//     } catch (error) {
+//         console.error("An error occurred:", error);
+//     }
+// });
+// } catch (error) {
+//     console.error()};
 
     try {
 document.getElementById("nextButton").addEventListener("click", function() {
@@ -96,11 +97,13 @@ document.getElementById("previusButton").addEventListener("click", function() {
 
     try {
       editQueryCountButton.addEventListener('click', function () {
+
         if (queryCountField.style.display === 'none') {
-            
+            var additional_info = document.getElementById('additional-info');
             queryResponseDisplay.style.display = 'none';
             queryCountDisplay.style.display = 'none';
             NMCKMarketResponse.style.display = 'none';
+            additional_info.style.display = 'none';
             queryCountField.style.display = 'block';
             FinancingLimitResponse.style.display = 'none';
             
@@ -108,11 +111,11 @@ document.getElementById("previusButton").addEventListener("click", function() {
             TkpDisplay.style.display = 'block';
             NMCKMarket.style.display = 'block';
             FinancingLimit.style.display = 'block';
-    
+            
             for (var i = 0; i < additionallabels.length; i++) {
                 additionallabels[i].style.display = 'none';
                 additionalvalues[i].style.display = 'none';
-                TKPCountFields[i].style.display = 'block';
+                // TKPCountFields[i].style.display = 'block';
             }
              // Добавьте эту строку
             queryCountField.focus();
@@ -120,7 +123,9 @@ document.getElementById("previusButton").addEventListener("click", function() {
         } else {
     
             queryCountDisplay.textContent = queryCountField.value;
-    
+            queryResponseDisplay.textContent = queryResponseField.value;
+            NMCKMarketResponse.textContent =  NMCKMarket.value;
+            FinancingLimitResponse.textContent = FinancingLimit.value;
             queryCountField.style.display = 'none';
             queryCountDisplay.style.display = 'block';
             queryResponseDisplay.style.display = 'block';
@@ -128,9 +133,10 @@ document.getElementById("previusButton").addEventListener("click", function() {
             NMCKMarket.style.display = 'none';
             FinancingLimit.style.display = 'none';
             queryResponseField.style.display = 'none';
-            TkpDisplay.style.display = 'none';
+            TkpDisplay.style.display = 'block';
             NMCKMarketResponse.style.display = 'block';
             FinancingLimitResponse.style.display = 'block';
+            // additional_info.style.display = 'block';
   
             editQueryCountButton.textContent = 'Изменить';
             for (var i = 0; i < additionallabels.length; i++) {
@@ -138,6 +144,13 @@ document.getElementById("previusButton").addEventListener("click", function() {
                 additionalvalues[i].style.display = 'block';
                 TKPCountFields[i].style.display = 'none';
             }
+            var tkpFieldsContainer = document.getElementById('tkpFieldsContainer');
+            var tkpInputs = tkpFieldsContainer.querySelectorAll('.TKPinput');
+        
+            for (var i = 0; i < tkpInputs.length; i++) {
+              tkpInputs[i].disabled = true;
+            }
+         
         }
     });
 } catch (error) {
