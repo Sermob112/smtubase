@@ -34,16 +34,16 @@ class Purchase(models.Model):
 
      # Добавленные поля
     
-    QueryCount = models.IntegerField(null=True, blank=True, verbose_name="Количество запросов")
-    ResponseCount = models.IntegerField(null=True, blank=True, verbose_name="Количество ответов") 
-    additional_info = models.JSONField(null=True, blank=True, verbose_name="Дополнительная информация")    
-    AveragePrice = models.FloatField(null=True, blank=True, verbose_name="Среднее значение цены")
-    MinPrice = models.FloatField(null=True, blank=True, verbose_name="Минимальная цена")
-    MaxPrice = models.FloatField(null=True, blank=True, verbose_name="Максимальная цена")
-    StandardDeviation = models.FloatField(null=True, blank=True, verbose_name="Среднее квадратичное отклонение")
-    CoefficientOfVariation = models.FloatField(null=True, blank=True, verbose_name="Коэффициент вариации")
-    NMCKMarket = models.FloatField(null=True, blank=True, verbose_name="НМЦК рыночная")
-    FinancingLimit = models.FloatField(null=True, blank=True, verbose_name="Лимит финансирования")
+    QueryCount = models.IntegerField(null=True, blank=True,default="Нет данных", verbose_name="Количество запросов")
+    ResponseCount = models.IntegerField(null=True, blank=True, default="Нет данных",verbose_name="Количество ответов") 
+    additional_info = models.JSONField(null=True, blank=True,default="Нет данных", verbose_name="Дополнительная информация")    
+    AveragePrice = models.FloatField(null=True, blank=True, default="Нет данных",verbose_name="Среднее значение цены")
+    MinPrice = models.FloatField(null=True, blank=True, default="Нет данных",verbose_name="Минимальная цена")
+    MaxPrice = models.FloatField(null=True, blank=True,default="Нет данных", verbose_name="Максимальная цена")
+    StandardDeviation = models.FloatField(null=True, blank=True,default="Нет данных", verbose_name="Среднее квадратичное отклонение")
+    CoefficientOfVariation = models.FloatField(null=True, blank=True, default="Нет данных",verbose_name="Коэффициент вариации")
+    NMCKMarket = models.FloatField(null=True, blank=True,default="Нет данных", verbose_name="НМЦК рыночная")
+    FinancingLimit = models.FloatField(null=True, blank=True,default="Нет данных", verbose_name="Лимит финансирования")
 
     def set_tkp(self, tkp_number, value):
         # Метод для установки значения TKP в дополнительной информации

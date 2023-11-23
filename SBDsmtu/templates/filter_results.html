@@ -460,7 +460,11 @@
                         <span class="small-text">Количество запросов</span>
                     </div>
                     <div class="col-text">
-                        <span class="mid-text" id="queryCountDisplay">{{ purchase.QueryCount }}</span>
+                        <span class="mid-text" id="queryCountDisplay">{% if purchase.QueryCount %}
+                            {{ purchase.QueryCount|floatformat:0 }}
+                        {% else %}
+                            Нет данных
+                        {% endif %}</span>
                         <input type="number" id="queryCountField2" style="display: none;" placeholder="{{ purchase.QueryCount }}">
                       
                     </div>
@@ -470,7 +474,11 @@
                         <span class="small-text">Количество ответов</span>
                     </div>
                     <div class="col-text">
-                        <span class="mid-text" id="ResponseCountDisplay">{{ purchase.ResponseCount }}</span>
+                        <span class="mid-text" id="ResponseCountDisplay">{% if purchase.ResponseCount %}
+                            {{ purchase.ResponseCount|floatformat:0 }}
+                        {% else %}
+                            Нет данных
+                        {% endif %}</span>
                         <input type="number" id="ResponseCountField2" style="display: none;" placeholder="{{ purchase.ResponseCount }}">
                     </div>
                 </div>
@@ -479,7 +487,11 @@
                         <span class="small-text">НМЦК рыночная </span> 
                     </div>
                     <div class="col-text">
-                        <span class="mid-text" id="ResponseNMCKMarket">{{ purchase.NMCKMarket }}</span> 
+                        <span class="mid-text" id="ResponseNMCKMarket">{% if purchase.NMCKMarket %}
+                            {{ purchase.NMCKMarket|floatformat:0 }}
+                        {% else %}
+                            Нет данных
+                        {% endif %}</span> 
                         <input type="number" id="NMCKMarket" style="display: none;" placeholder="{{ purchase.NMCKMarket }}">
                     </div>
                 </div>
@@ -488,7 +500,11 @@
                         <span class="small-text">Лимит финансирования </span> 
                     </div>
                     <div class="col-text">
-                        <span class="mid-text" id="ResponseFinancingLimit" >{{ purchase.FinancingLimit }}</span> 
+                        <span class="mid-text" id="ResponseFinancingLimit" >{% if purchase.FinancingLimit %}
+                            {{ purchase.FinancingLimit|floatformat:0 }}
+                        {% else %}
+                            Нет данных
+                        {% endif %}</span> 
                         <input type="number" id="FinancingLimit" style="display: none;" placeholder="{{ purchase.FinancingLimit }}">
                     </div>
                 </div>
@@ -519,7 +535,11 @@
                 <span class="small-text">Среднее значение цены </span> 
             </div>
             <div class="col-text">
-                <span class="mid-text" id ="averagePrice">{{ purchase.AveragePrice }}</span> 
+                <span class="mid-text" id ="averagePrice">  {% if purchase.AveragePrice %}
+                    {{ purchase.AveragePrice|floatformat:0 }}
+                {% else %}
+                    Нет данных
+                {% endif %}</span> 
             </div>
         </div>
         <div class="Block">
@@ -527,7 +547,11 @@
                 <span class="small-text">Минимальная цена </span> 
             </div>
             <div class="col-text">
-                <span class="mid-text" id ="minPrice">{{ purchase.MinPrice }}</span> 
+                <span class="mid-text" id ="minPrice">  {% if purchase.MinPrice %}
+                    {{ purchase.MinPrice|floatformat:0 }}
+                {% else %}
+                    Нет данных
+                {% endif %}</span> 
             </div>
         </div>
         <div class="Block">
@@ -535,7 +559,11 @@
                 <span class="small-text" >Максимальная цена </span> 
             </div>
             <div class="col-text">
-                <span class="mid-text" id ="maxPrice">{{ purchase.MaxPrice }}</span> 
+                <span class="mid-text" id ="maxPrice">  {% if purchase.MaxPrice %}
+                    {{ purchase.MaxPrice|floatformat:0 }}
+                {% else %}
+                    Нет данных
+                {% endif %}</span> 
             </div>
         </div>
         <div class="Block">
@@ -543,7 +571,13 @@
                 <span class="small-text">Среднее квадратичное отклонение </span> 
             </div>
             <div class="col-text">
-                <span class="mid-text" id ="standardDeviation" >{{ purchase.StandardDeviation }}</span> 
+                <span class="mid-text" id="standardDeviation">
+                    {% if purchase.StandardDeviation %}
+                        {{ purchase.StandardDeviation|floatformat:2 }}
+                    {% else %}
+                        Нет данных
+                    {% endif %}
+                </span>
             </div>
         </div>
         <div class="Block">
@@ -551,7 +585,11 @@
                 <span class="small-text">Коэффициент вариации </span> 
             </div>
             <div class="col-text">
-                <span class="mid-text" id ="coefficientOfVariation" >{{ purchase.CoefficientOfVariation }} </span> 
+                <span class="mid-text" id ="coefficientOfVariation" >{% if purchase.CoefficientOfVariation %}
+                    {{ purchase.CoefficientOfVariation|floatformat:2 }}
+                {% else %}
+                    Нет данных
+                {% endif %} % </span> 
             </div>
         </div>
  
