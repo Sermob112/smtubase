@@ -25,6 +25,7 @@ def insert_in_table(csv_file_path):
         with open(csv_file_path, 'r', encoding='windows-1251') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter = ';')
             next(csv_reader)  # Пропустите заголовок, если он есть
+       
             for row in csv_reader:
                
                 # Обрезка слишком длинных строк
@@ -129,6 +130,125 @@ def insert_in_table(csv_file_path):
     return errors
 
 
+def insert_in_table_for_users(csv_file_path):
+    errors = []
+    try:
+        connection = psycopg2.connect(
+            dbname=database,
+            user=username,
+            password=password,
+            host=hostname,
+            port=port
+        )
+        print("Успешное подключение к базе данных")
+        cursor = connection.cursor()
+        with open(csv_file_path, 'r', encoding='windows-1251') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter = ';')
+            next(csv_reader)  # Пропустите заголовок, если он есть
+            row = next(csv_reader, None)
+            if row is not None:
+            # for row in csv_reader:
+               
+                # Обрезка слишком длинных строк
+                max_length = 255  # Максимальная длина для строк
+                purchase_date = row[0][:max_length] if row[0] else 'Нет данных'
+                registry_number = row[1][:max_length] if row[1] else 'Нет данных'
+                procurement_method = row[2][:max_length] if row[2] else 'Нет данных'
+                purchase_name = row[3][:max_length] if row[3] else 'Нет данных'
+                auction_subject = row[4][:max_length] if row[4] else 'Нет данных'
+                purchase_identification_code = row[5][:max_length] if row[5] else 'Нет данных'
+                
+                try:
+                    lot_number = int(row[6])
+                except ValueError:
+                    lot_number = 0  # Если не удалось преобразовать в int, устанавливаем значение по умолчанию
+                
+                lot_name = row[7][:max_length] if row[7] else 'Нет данных'
+                
+                try:
+                    initial_max_contract_price = float(row[8])
+                except ValueError:
+                    initial_max_contract_price = 0.0  # Если не удалось преобразовать в float, устанавливаем значение по умолчанию
+                Currency = row[9][:max_length] if row[9] else 'Нет данных'
+                try:
+                    InitialMaxContractPriceInCurrency = float(row[10])
+                except ValueError:
+                    InitialMaxContractPriceInCurrency = 0
+                ContractCurrency = row[11][:max_length] if row[11] else 'Нет данных'
+                OKDPClassification = row[12][:max_length] if row[12] else 'Нет данных'
+                OKPDClassification = row[13][:max_length] if row[13] else 'Нет данных'
+                OKPD2Classification = row[14][:max_length] if row[14] else 'Нет данных'
+                PositionCode = row[15][:max_length] if row[15] else 'Нет данных'
+                CustomerName = row[16][:max_length] if row[16] else 'Нет данных'
+                ProcurementOrganization = row[17][:max_length] if row[17] else 'Нет данных'
+                PlacementDate = row[18]
+                try:
+                    placementDate = datetime.datetime.strptime(PlacementDate, '%d.%m.%Y').date()
+                except ValueError:
+                    placementDate = None
+                UpdateDate = row[19]
+                try:
+                    updateDate = datetime.datetime.strptime(UpdateDate, '%d.%m.%Y').date()
+                except ValueError:
+                    updateDate =None
+                ProcurementStage = row[20][:max_length] if row[20] else 'Нет данных'
+                ProcurementFeatures = row[21][:max_length] if row[21] else 'Нет данных'
+                ApplicationStartDate = row[22]
+                try:
+                    applicationStartDate = datetime.datetime.strptime(ApplicationStartDate, '%d.%m.%Y').date()
+                except ValueError:
+                    applicationStartDate = None
+
+                ApplicationEndDate = row[23]
+                try:
+                    applicationEndDate = datetime.datetime.strptime(ApplicationEndDate, '%d.%m.%Y').date()
+                except ValueError:
+                    applicationEndDate = None
+
+                auctionDate = row[23]
+                try:
+                    AuctionDate = datetime.datetime.strptime(auctionDate, '%d.%m.%Y').date()
+                except ValueError:
+                    AuctionDate = None
+                # Вставка данных в таблицу
+                sql = """
+     
+                   INSERT INTO public."SBDsmtu_purchase" (
+                        "PurchaseOrder", "RegistryNumber", "ProcurementMethod", "PurchaseName",
+                        "AuctionSubject", "PurchaseIdentificationCode", "LotNumber", "LotName",
+                        "InitialMaxContractPrice", "Currency", "InitialMaxContractPriceInCurrency", 
+                         "ContractCurrency","OKDPClassification","OKPDClassification",
+                           "OKPD2Classification","PositionCode","CustomerName","ProcurementOrganization","PlacementDate",
+                        "UpdateDate","ProcurementStage","ProcurementFeatures","ApplicationStartDate","ApplicationEndDate",
+                        "AuctionDate"
+                    )
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s,%s)
+                        """
+               
+                data = (
+                    purchase_date, registry_number, procurement_method, purchase_name,
+                    auction_subject, purchase_identification_code, lot_number, lot_name,
+                    initial_max_contract_price,Currency,InitialMaxContractPriceInCurrency,ContractCurrency,
+                    OKDPClassification,OKPDClassification,
+                    OKPD2Classification,PositionCode,CustomerName,ProcurementOrganization,placementDate,
+                    updateDate,ProcurementStage,ProcurementFeatures,applicationStartDate, applicationEndDate,
+                    AuctionDate
+
+                )
+                cursor.execute(sql, data)
+
+
+        # Завершите транзакцию и закройте соединение
+        connection.commit()
+    
+    
+    except Exception as e:
+        print("Ошибка подключения или вставки данных:", e)
+        errors.append(str(e))  # Добавьте ошибку в список ошибок
+
+    finally:
+        connection.close()
+    return errors
 
 # def insert_in_table(csv_file_path):
 #     errors = []

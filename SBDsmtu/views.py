@@ -219,6 +219,8 @@ def index(request):
 #     })
 def is_admin(user):
     return user.is_authenticated and user.userprofile.roles.filter(name='Администратор').exists()
+def is_user(user):
+    return user.is_authenticated and user.userprofile.roles.filter(name='Пользователь').exists()
 def is_editor(user):
     return user.is_authenticated and user.userprofile.roles.filter(name='Редактор').exists()
 def is_admin_or_editor(user):
@@ -723,7 +725,40 @@ def upload_csv(request):
         'difference': difference,
     })
 
+@user_passes_test(is_user)
+def upload_csv_for_users(request):
+    errors = []
+    difference = find_records_with_differences()
 
+    if request.method == 'POST':
+        form = CSVUploadForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            csv_file = request.FILES['csv_file']
+            try:
+                temp_file = tempfile.NamedTemporaryFile(delete=False)
+                for chunk in csv_file.chunks():
+                    temp_file.write(chunk)
+                temp_file.close()
+                errors = insert_in_table(temp_file.name)
+                difference = find_records_with_differences()
+                if not errors:
+                    return JsonResponse({'success': True, 'message': 'Запись успешно добавлена'})
+                else:
+                    return JsonResponse({'success': False, 'errors': errors}, status=400)
+
+            except Exception as e:
+                errors.append(str(e))
+                return JsonResponse({'success': False, 'errors': errors}, status=500)
+
+    else:
+        form = CSVUploadForm()
+
+    return render(request, 'upload_csv.html', {
+        'errors': errors,
+        'form': form,
+        'difference': difference,
+    })
 
 
 

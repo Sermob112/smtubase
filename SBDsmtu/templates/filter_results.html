@@ -605,14 +605,15 @@
                         <button class="arrow-button rotate-180" id="previusButton"><img src="../static/SBDsmtu/images/arrow.svg" ></button>
                     </div>
                     
-                    <div class="button-container"> <button class="arrow-button rotate-minus-90 " id="prvButton"><img src="../static/SBDsmtu/images/arrow.svg" ></button>
+                    <!-- <div class="button-container"> 
+                        <button class="arrow-button rotate-minus-90 " id="prvButton"><img src="../static/SBDsmtu/images/arrow.svg" ></button>
                        
                         <button class="arrow-button rotate-90" id="nxtButton"><img src="../static/SBDsmtu/images/arrow.svg" ></button>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="button-grid">
                     <div class="button-utility-container">
-                    <p>Purchase ID: {{ purchase.Id }}</p>
+                    <!-- <p>Purchase ID: {{ purchase.Id }}</p> -->
                     {% if user_is_editor  or user_is_admin %}
                     <button id="deletePurchaseButton" data-purchase-id="{{ purchase.Id }}" class="btn btn-danger">Удалить закупку</button>
                     <input type="hidden" id="purchaseIdField" value="{{ purchase.Id }}">
@@ -620,8 +621,8 @@
                     <input type="hidden" id="purchaseIdField" name="purchaseId" value="{{ purchase.id }}">
                     <button id="editQueryCountButton">Изменить</button>
                     {% endif %}
-                    <button>Кнопка 7</button>
-                    <button>Кнопка 8</button>
+                    <!-- <button>Кнопка 7</button>
+                    <button>Кнопка 8</button> -->
                 </div>
                 </div>
             </div>
