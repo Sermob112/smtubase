@@ -543,3 +543,7 @@ $(document).ready(function() {
         calculateAndDisplayStatistics();
     });
 });
+
+function redirectToBase() {
+    window.location.href = "/";
+}
