@@ -471,7 +471,7 @@ $(document).ready(function() {
     var tkpFieldCount = 0;
 
     // Обработчик ввода цифры в поле "#queryCountField2"
-    $("#queryCountField2").on("input", function() {
+    $("#ResponseCountField2").on("input", function() {
         // Очистить контейнер перед добавлением новых полей
         $("#tkpFieldsContainer").empty();
 
