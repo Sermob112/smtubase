@@ -626,7 +626,14 @@ def analis(request):
 
         os.remove(output_excel_path)
         return response
-
+    pivot_table2 = pivot_table2.reindex(index=[
+    'Менее 100 тыс.руб',
+    'Цена контракта 100 000 - 200 000 тыс.руб.',
+    'Цена контракта 200 000 - 500 000 тыс.руб.',
+    'Цена контракта 1 000 000 - 5 000 000 тыс.руб.',
+    'Цена контракта 5 000 000 - 10 000 000 тыс.руб.',
+    'Цена контракта более 100 000 000 тыс.руб.'
+])
     context = {
     'pivot_table': pivot_table,
     'column_sums': column_sums,
@@ -647,7 +654,6 @@ def determine_price_range(row):
         return 'Цена контракта более 100 000 000 тыс.руб.'
     elif 5000000 <= row['InitialMaxContractPrice'] <= 10000000:
         return 'Цена контракта 5 000 000 - 10 000 000 тыс.руб.'
-    
     elif 1000000 <= row['InitialMaxContractPrice'] <= 5000000:
         return 'Цена контракта 1 000 000 - 5 000 000 тыс.руб.'
     elif 500000 <= row['InitialMaxContractPrice'] <= 1000000:
